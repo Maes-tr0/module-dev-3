@@ -1,6 +1,5 @@
 package ua.example;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,11 +50,13 @@ public class SumCalculatorTest {
     public void testSumOverflow() {
         int number = 65536;
 
-        long expected = (long) number * (number + 1) / 2;
-
-        Assertions.assertThrows(ArithmeticException.class, () -> {
-            int actual = sumCalculator.sum(number);
-            Assertions.assertEquals(expected, actual, "Значення суми перевищує тип int");
-        });
+        try {
+            long actual = sumCalculator.sum(number);
+            long expected = (long) number * (number + 1) / 2;
+            Assertions.assertEquals(expected, actual, "Значення суми не співпадає з очікуваним");
+        } catch (ArithmeticException ex) {
+            Assertions.fail("Значення суми перевищує тип int");
+        }
     }
+
 }

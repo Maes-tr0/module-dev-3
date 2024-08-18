@@ -13,16 +13,9 @@ public class SumCalculatorTest {
         sumCalculator = new SumCalculator();
     }
 
-    @AfterEach
-    public void afterEach() {
-        sumCalculator.clear();
-    }
-
     @Test
     public void testSumIsCorrectResultWithZero(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           sumCalculator.sum(0);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sumCalculator.sum(0));
     }
 
     @Test
@@ -35,9 +28,7 @@ public class SumCalculatorTest {
 
     @Test
     public void testSumIsCorrectResultWithNegativeNumber(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            sumCalculator.sum(-10);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sumCalculator.sum(-10));
     }
 
     @Test
@@ -59,10 +50,12 @@ public class SumCalculatorTest {
     @Test
     public void testSumOverflow() {
         int number = 65536;
-        int actual = sumCalculator.sum(number);
 
         long expected = (long) number * (number + 1) / 2;
-        Assertions.assertEquals(expected, actual, "Значення суми перевищує тип int");
-        throw new ArithmeticException("Integer overflow");
+
+        Assertions.assertThrows(ArithmeticException.class, () -> {
+            int actual = sumCalculator.sum(number);
+            Assertions.assertEquals(expected, actual, "Значення суми перевищує тип int");
+        });
     }
 }

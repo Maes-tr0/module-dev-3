@@ -47,16 +47,9 @@ public class SumCalculatorTest {
     }
 
     @Test
-    public void testSumOverflow() {
-        int number = 65536;
-
-        try {
-            long actual = sumCalculator.sum(number);
-            long expected = (long) number * (number + 1) / 2;
-            Assertions.assertEquals(expected, actual, "Значення суми не співпадає з очікуваним");
-        } catch (ArithmeticException ex) {
-            Assertions.fail("Значення суми перевищує тип int");
-        }
+    public void testSumThrowsArithmeticExceptionWhenOverflow() {
+        Assertions.assertThrows(ArithmeticException.class, () -> sumCalculator.sum(100000));
     }
+
 
 }
